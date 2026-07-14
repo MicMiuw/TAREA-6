@@ -1,0 +1,322 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{parskip}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\geometry{top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\fancyhead[C]{%
+  \begin{center}
+    \textbf{ESCUELA POLIT\'ECNICA NACIONAL}\\[-2pt]
+    \textbf{M\'ETODOS NUM\'ERICOS}\\[-2pt]
+    \textbf{GR1CC}
+  \end{center}
+}
+\setlength{\headheight}{52pt}
+\fancyfoot[C]{\thepage}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+\titleformat{\section}[block]{\bfseries\large}{}{0pt}{}
+\titleformat{\subsection}[block]{\bfseries}{}{0pt}{}
+
+\begin{document}
+
+\vspace*{0.5cm}
+
+\textbf{Nombre:} Karina C\'ardenas D\'iaz \hfill \textbf{Fecha:} 12/07/2026
+
+\vspace{0.3cm}
+\begin{center}
+  \textbf{\large TAREA 06 --- SERIE DE TAYLOR Y POLINOMIOS DE LAGRANGE}\\[2pt]
+  \textbf{Unidad 03-A}
+\end{center}
+\vspace{0.2cm}
+
+\hrule
+\vspace{0.4cm}
+
+\section*{CONJUNTO DE EJERCICIOS}
+
+\textbf{Enunciado:} Determine el orden de la mejor aproximaci\'on para las siguientes funciones, usando la Serie de Taylor y el Polinomio de Lagrange. Escriba las f\'ormulas de los diferentes polinomios y grafique las diferentes aproximaciones.
+
+\textbf{1.} $f(x) = \dfrac{1}{25x^2+1}$, $x_0 = 0$
+
+\textbf{Descripci\'on:} Esta funci\'on es la conocida \emph{funci\'on de Runge}, un caso cl\'asico para ilustrar las limitaciones tanto de la serie de Taylor como del polinomio de Lagrange.
+
+\subsection*{a. Serie de Taylor}
+
+Como $f(x) = \dfrac{1}{1+25x^2}$ corresponde a una serie geom\'etrica de raz\'on $-25x^2$:
+\[
+f(x) = \sum_{n=0}^{\infty} (-1)^n (25x^2)^n = 1 - 25x^2 + 625x^4 - 15625x^6 + 390625x^8 - \cdots
+\]
+
+Los polinomios de Taylor de distintos \'ordenes en $x_0=0$ son:
+\[
+P_2(x) = 1 - 25x^2
+\]
+\[
+P_4(x) = 1 - 25x^2 + 625x^4
+\]
+\[
+P_6(x) = 1 - 25x^2 + 625x^4 - 15625x^6
+\]
+\[
+P_8(x) = 1 - 25x^2 + 625x^4 - 15625x^6 + 390625x^8
+\]
+
+Dado que $f(x)$ tiene polos complejos en $x = \pm \dfrac{i}{5}$, el radio de convergencia de la serie es
+\[
+R = \left|\frac{i}{5}\right| = 0.2.
+\]
+
+Esto significa que la serie converge \'unicamente para $|x| < 0.2$, y diverge para cualquier $|x| \geq 0.2$, sin importar cu\'antos t\'erminos se agreguen.
+
+\begin{center}
+\begin{tabular}{cccc}
+\toprule
+Orden & $x=0.15$ (dentro de $R$) & $x=0.3$ (fuera de $R$) & $x=0.5$ (fuera de $R$) \\
+\midrule
+2 & $0.2025$ & $1.5577$   & $5.3879$    \\
+4 & $0.1139$ & $3.5048$   & $33.6746$   \\
+6 & $0.0641$ & $7.8858$   & $210.4661$  \\
+8 & $0.0360$ & $17.7431$  & $1315.4129$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Se observa que dentro del radio de convergencia ($x=0.15$) el error disminuye al aumentar el orden, pero fuera de \'el ($x=0.3$ y $x=0.5$) el error crece exponencialmente con el orden.
+
+\textbf{Respuesta:} El orden \'optimo de Taylor depende del dominio de trabajo. Dentro de $|x|<0.2$, el orden $\boxed{8}$ da la mejor aproximaci\'on; fuera de ese intervalo, \textbf{ning\'un} orden de Taylor converge, por lo que la serie deja de ser \'util.
+
+\subsection*{b. Polinomio de Lagrange}
+
+Se generan nodos equiespaciados en $[-1,1]$ y se construye el polinomio interpolante para distintos \'ordenes.
+
+\textbf{Orden 4 (5 puntos, $x=-1,-0.5,0,0.5,1$):}
+\[
+P_4(x) = 3.3157x^4 - 4.2772x^2 + 1
+\]
+
+\textbf{Orden 8 (9 puntos equiespaciados):}
+\[
+P_8(x) = 53.6893x^8 - 102.815x^6 + 61.3672x^4 - 13.203x^2 + 1
+\]
+
+\textbf{Orden 12 (13 puntos equiespaciados):}
+\[
+P_{12}(x) = 909.876x^{12} - 2336.36x^{10} + 2201.75x^8 - 955.373x^6 + 198.723x^4 - 19.5828x^2 + 1
+\]
+
+\begin{center}
+\begin{tabular}{cc}
+\toprule
+Orden (n\'umero de nodos) & Error m\'aximo en $[-1,1]$ \\
+\midrule
+4  (5 nodos)  & $0.4384$ \\
+8  (9 nodos)  & $1.0452$ \\
+12 (13 nodos) & $3.6583$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Al aumentar el n\'umero de nodos equiespaciados, el error \textbf{crece} en lugar de disminuir, sobre todo cerca de los extremos del intervalo. Este comportamiento es el conocido \textbf{fen\'omeno de Runge}: con nodos equiespaciados, un polinomio interpolante de orden alto oscila fuertemente cerca de los bordes.
+
+\textbf{Respuesta:} El orden \'optimo de Lagrange es el \textbf{orden 4} (5 nodos), ya que produce el menor error m\'aximo. Incrementar el orden empeora la aproximaci\'on debido al fen\'omeno de Runge.
+
+\subsection*{Gr\'aficas}
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+  width=12cm, height=7cm,
+  xlabel=$x$, ylabel=$y$,
+  title={Serie de Taylor de $f(x)=1/(25x^2+1)$ en $x_0=0$},
+  domain=-0.4:0.4, samples=200,
+  legend pos=north east,
+  ymin=-1, ymax=2,
+  grid=major
+]
+\addplot[thick, blue] {1/(25*x^2+1)};
+\addplot[dashed, red] {1 - 25*x^2};
+\addplot[dashed, orange] {1 - 25*x^2 + 625*x^4};
+\legend{$f(x)$, Taylor orden 2, Taylor orden 4}
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+  width=12cm, height=7cm,
+  xlabel=$x$, ylabel=$y$,
+  title={Polinomio de Lagrange de $f(x)=1/(25x^2+1)$ en $[-1,1]$},
+  domain=-1:1, samples=300,
+  legend pos=north east,
+  ymin=-4, ymax=1.5,
+  grid=major
+]
+\addplot[thick, blue] {1/(25*x^2+1)};
+\addplot[dashed, red]    {3.3157*x^4 - 4.2772*x^2 + 1};
+\addplot[dashed, orange] {53.6893*x^8 - 102.815*x^6 + 61.3672*x^4 - 13.203*x^2 + 1};
+\addplot[dashed, violet] {909.876*x^12 - 2336.36*x^10 + 2201.75*x^8 - 955.373*x^6 + 198.723*x^4 - 19.5828*x^2 + 1};
+\legend{$f(x)$, Lagrange orden 4, Lagrange orden 8, Lagrange orden 12}
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\vspace{0.5cm}
+\textbf{2.} $f(x) = \arctan(x)$, $x_0 = 1$
+
+\textbf{Descripci\'on:} Se busca comparar la aproximaci\'on de Taylor alrededor de $x_0=1$ con la interpolaci\'on de Lagrange usando nodos en un intervalo m\'as amplio.
+
+\subsection*{a. Serie de Taylor}
+
+Derivadas de $f(x) = \arctan(x)$ evaluadas en $x_0=1$:
+\[
+f(1) = \frac{\pi}{4}, \quad f'(1) = \frac{1}{2}, \quad f''(1) = -\frac{1}{2}, \quad f'''(1) = \frac{1}{2}, \quad f^{(4)}(1) = 0, \quad f^{(5)}(1) = -3.
+\]
+
+Los polinomios de Taylor resultantes son:
+\[
+P_1(x) = \frac{\pi}{4} + \frac{1}{2}(x-1)
+\]
+\[
+P_2(x) = \frac{\pi}{4} + \frac{1}{2}(x-1) - \frac{1}{4}(x-1)^2
+\]
+\[
+P_3(x) = \frac{\pi}{4} + \frac{1}{2}(x-1) - \frac{1}{4}(x-1)^2 + \frac{1}{12}(x-1)^3
+\]
+\[
+P_5(x) = P_3(x) + 0\cdot(x-1)^4 - \frac{1}{40}(x-1)^5
+\]
+
+Como $\arctan(x)$ tiene polos complejos en $x=\pm i$, la distancia desde $x_0=1$ hasta el polo m\'as cercano determina el radio de convergencia:
+\[
+R = |1-i| = \sqrt{2} \approx 1.4142.
+\]
+
+Por lo tanto la serie converge en el intervalo $(1-\sqrt{2},\, 1+\sqrt{2}) \approx (-0.414,\, 2.414)$.
+
+\begin{center}
+\begin{tabular}{cccc}
+\toprule
+Orden & $x=1.3$ & $x=2.0$ & $x=2.5$ (fuera de $R$) \\
+\midrule
+1 & $0.02030$ & $0.17825$ & $0.34511$ \\
+2 & $0.00220$ & $0.07175$ & $0.21739$ \\
+3 & $0.00005$ & $0.01158$ & $0.06386$ \\
+5 & $0.00001$ & $0.01342$ & $0.12599$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Dentro del radio de convergencia el error disminuye consistentemente hasta el orden 3; al pasar al orden 5, cerca del borde del radio de convergencia ($x=2.0$ y $x=2.5$), el error deja de mejorar e incluso empeora.
+
+\textbf{Respuesta:} El orden \'optimo de Taylor es el $\boxed{3}$: agregar t\'erminos adicionales deja de aportar precisi\'on notable dentro del dominio pr\'actico de inter\'es y empeora la aproximaci\'on cerca del l\'imite $x=1+\sqrt{2}$.
+
+\subsection*{b. Polinomio de Lagrange}
+
+Se generan nodos equiespaciados en $[-2,4]$ (intervalo centrado aproximadamente en $x_0=1$) para distintos \'ordenes.
+
+\textbf{Orden 2 (3 puntos, $x=-2,1,4$):}
+\[
+P_2(x) = -0.0751x^2 + 0.5557x + 0.3048
+\]
+
+\textbf{Orden 4 (5 puntos equiespaciados):}
+\[
+P_4(x) = 0.0167x^4 - 0.0883x^3 - 0.0603x^2 + 0.9186x - 0.0013
+\]
+
+\textbf{Orden 6 (7 puntos equiespaciados):}
+\[
+P_6(x) = -0.0023x^6 + 0.0132x^5 + 0.0116x^4 - 0.1431x^3 - 0.0092x^2 + 0.9153x
+\]
+
+\begin{center}
+\begin{tabular}{cc}
+\toprule
+Orden (n\'umero de nodos) & Error m\'aximo en $[-2,4]$ \\
+\midrule
+2 (3 nodos) & $0.4897$ \\
+4 (5 nodos) & $0.1504$ \\
+6 (7 nodos) & $0.0695$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+A diferencia de la funci\'on de Runge, en este caso el error del polinomio de Lagrange \textbf{disminuye} al aumentar el orden, ya que los polos de $\arctan(x)$ est\'an relativamente alejados del intervalo de interpolaci\'on elegido.
+
+\textbf{Respuesta:} El orden \'optimo de Lagrange, entre los evaluados, es el $\boxed{6}$ (7 nodos), pues produce el menor error m\'aximo sin mostrar oscilaciones significativas.
+
+\subsection*{Gr\'aficas}
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+  width=12cm, height=7cm,
+  xlabel=$x$, ylabel=$y$,
+  title={Serie de Taylor de $f(x)=\arctan(x)$ en $x_0=1$},
+  domain=-0.4:2.4, samples=200,
+  legend pos=south east,
+  grid=major
+]
+\addplot[thick, blue] {atan(deg(x))};
+\addplot[dashed, red]    {pi/4 + 0.5*(x-1)};
+\addplot[dashed, orange] {pi/4 + 0.5*(x-1) - 0.25*(x-1)^2};
+\addplot[dashed, violet] {pi/4 + 0.5*(x-1) - 0.25*(x-1)^2 + (1/12)*(x-1)^3};
+\legend{$f(x)$, Taylor orden 1, Taylor orden 2, Taylor orden 3}
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+  width=12cm, height=7cm,
+  xlabel=$x$, ylabel=$y$,
+  title={Polinomio de Lagrange de $f(x)=\arctan(x)$ en $[-2,4]$},
+  domain=-2:4, samples=300,
+  legend pos=south east,
+  grid=major
+]
+\addplot[thick, blue] {atan(deg(x))};
+\addplot[dashed, red]    {-0.0751*x^2 + 0.5557*x + 0.3048};
+\addplot[dashed, orange] {0.0167*x^4 - 0.0883*x^3 - 0.0603*x^2 + 0.9186*x - 0.0013};
+\addplot[dashed, violet] {-0.0023*x^6 + 0.0132*x^5 + 0.0116*x^4 - 0.1431*x^3 - 0.0092*x^2 + 0.9153*x};
+\legend{$f(x)$, Lagrange orden 2, Lagrange orden 4, Lagrange orden 6}
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\hrule
+\vspace{0.4cm}
+\section*{CONCLUSI\'ON GENERAL}
+
+El comportamiento de ambos m\'etodos depende fuertemente de la funci\'on analizada:
+
+\begin{itemize}
+  \item Para $f(x)=1/(25x^2+1)$, la serie de Taylor solo converge dentro de $|x|<0.2$ debido a sus polos complejos cercanos al eje real, y el polinomio de Lagrange con nodos equiespaciados sufre el fen\'omeno de Runge, empeorando al aumentar el orden.
+  \item Para $f(x)=\arctan(x)$, al estar el punto de expansi\'on m\'as alejado de los polos complejos ($\pm i$), tanto la serie de Taylor como el polinomio de Lagrange mejoran su aproximaci\'on con el incremento de orden, dentro de un rango razonable.
+\end{itemize}
+
+Esto confirma que un mayor orden \textbf{no siempre implica una mejor aproximaci\'on}: la ubicaci\'on de las singularidades de la funci\'on respecto al punto de expansi\'on (Taylor) o al intervalo de interpolaci\'on (Lagrange) determina el orden \'optimo real.
+
+\end{document}
